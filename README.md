@@ -38,8 +38,8 @@ ngrok http 5000
 Note: Replace any `http://localhost:5000` references with the `https://` ngrok URL when importing the connector.
 
 Endpoints provided by the demo
-- `GET /hello` — returns `{ "message": "Hello from .NET 👋" }`
-- `POST /summarize` — accepts `{ "text": "..." }` and returns `{ "summary": "..." }`
+- `GET /hello`  returns `{ "message": "Hello from .NET 👋" }`
+- `POST /summarize`  accepts `{ "text": "..." }` and returns `{ "summary": "..." }`
 
 Create a Power Automate Custom Connector (step-by-step)
 
@@ -59,7 +59,7 @@ Flow idea: Manually trigger a flow, summarize text, and post the result to Micro
 
 Step-by-step flow description:
 
-1. Trigger: **Manually trigger a flow** (or any other trigger — e.g., When a new file is created).
+1. Trigger: **Manually trigger a flow** (or any other trigger e.g., When a new file is created).
 2. Action: **YourCustomConnector → PostSummarize**
 	- Input: the `text` value (could be a Compose output, file contents, or a dynamic field).
 3. Action: **Microsoft Teams → Post a message (V3)**
