@@ -68,7 +68,7 @@ Step-by-step flow description:
 	- Message: `Summary: @{body('PostSummarize')?['summary']}`
 
 Notes and tips
-- Keep your responses small and predictable — flows work best with compact outputs.
+- Keep your responses small and predictable, flows work best with compact outputs.
 - Secure the API for production: use OAuth2/Azure AD, or at minimum an API key passed in `x-api-key` header.
 - If your API uses Swagger/OpenAPI, Power Automate can import it directly (we included `MakerDotNetApi-openapi.json`).
 
@@ -84,10 +84,5 @@ POST summarize:
 $body = @{ text = "This is a long piece of text that should be summarized." } | ConvertTo-Json
 Invoke-RestMethod -Method Post -Uri http://localhost:5000/summarize -Body $body -ContentType "application/json"
 ```
-
-Want help next? 🤝
-- I can add API key validation to `Program.cs` and update the OpenAPI file.
-- I can generate a connector package (icon + settings) ready to import.
-- I can create a sample Power Automate flow JSON you can import.
 
 Enjoy building — When low-code meets pro-code, amazing automations happen! ✨
