@@ -2,12 +2,12 @@
 
 This demo shows how a small .NET 10 minimal API can extend the Power Platform by providing server-side logic and actions that low-code makers can call from Power Automate flows.
 
-Why this matters
+**Why this matters**
 - **Pro-code** (.NET) hosts business logic, integrations, or advanced AI calls.
 - **Low-code** (Power Platform) composes flows, UIs, and automations that call your API as a Custom Connector.
 Combining them gives flexibility and scale with minimal friction. 🎯
 
-What’s in this repo
+**What’s in this repo**
 
 ```
 lowcode-meets-procode/
@@ -19,7 +19,7 @@ lowcode-meets-procode/
  └─ .gitignore
 ```
 
-Quick setup (PowerShell)
+**Quick setup (PowerShell)**
 
 1. Restore and run the API locally:
 
@@ -41,7 +41,7 @@ Endpoints provided by the demo
 - `GET /hello`  returns `{ "message": "Hello from .NET 👋" }`
 - `POST /summarize`  accepts `{ "text": "..." }` and returns `{ "summary": "..." }`
 
-Create a Power Automate Custom Connector (step-by-step)
+**Create a Power Automate Custom Connector (step-by-step)**
 
 1. Start your API (see Quick setup). If testing remotely, start `ngrok http 5000` and copy the HTTPS URL.
 2. In the Power Automate web portal, go to **Data → Custom connectors** and click **+ New custom connector → Import an OpenAPI file**.
@@ -53,7 +53,7 @@ Create a Power Automate Custom Connector (step-by-step)
 6. Click **Create connector**. In the connector editor go to **Definition** to review the imported operations (`GET /hello`, `POST /summarize`).
 7. Go to **Test** inside the connector, create a connection (supply the api key if required), and run a quick test for each operation.
 
-Using the connector in a flow (example)
+**Using the connector in a flow (example)**
 
 Flow idea: Manually trigger a flow, summarize text, and post the result to Microsoft Teams.
 
@@ -67,12 +67,12 @@ Step-by-step flow description:
 	- Channel: choose your Channel
 	- Message: `Summary: @{body('PostSummarize')?['summary']}`
 
-Notes and tips
+**Notes and tips**
 - Keep your responses small and predictable, flows work best with compact outputs.
 - Secure the API for production: use OAuth2/Azure AD, or at minimum an API key passed in `x-api-key` header.
 - If your API uses Swagger/OpenAPI, Power Automate can import it directly (we included `MakerDotNetApi-openapi.json`).
 
-Examples (PowerShell)
+**Examples (PowerShell)**
 
 GET hello:
 ```powershell
