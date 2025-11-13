@@ -1,19 +1,14 @@
 {
   "openapi": "3.0.1",
   "info": {
-    "title": "MakerDotNetApi - Power Automate Connector",
+    "title": "MakerDotNetApi - Power Automate Connector (ngrok)",
     "version": "1.0.0",
-    "description": "OpenAPI definition for the MakerDotNetApi minimal .NET 10 service. Import into Power Automate as a Custom Connector."
+    "description": "OpenAPI definition for the MakerDotNetApi minimal .NET 10 service (ngrok tunnel). Import into Power Automate as a Custom Connector."
   },
   "servers": [
     {
-      "url": "https://{host}",
-      "description": "Replace {host} with your deployment host (or use localhost:5000 for local testing)",
-      "variables": {
-        "host": {
-          "default": "localhost:5000"
-        }
-      }
+      "url": "https://krystin-expropriable-yasuko.ngrok-free.dev",
+      "description": "ngrok tunnel (replace with your tunnel URL if it changes)"
     }
   ],
   "paths": {
@@ -123,7 +118,7 @@
         "type": "apiKey",
         "in": "header",
         "name": "x-api-key",
-        "description": "Optional API key to secure the API. Replace or remove this scheme if you use OAuth2 / Azure AD."
+        "description": "API key in header (x-api-key). Use 'my-secret-key' for local testing."
       }
     }
   },
