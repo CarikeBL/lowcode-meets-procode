@@ -26,6 +26,8 @@ lowcode-meets-procode/
 ```powershell
 cd C:\Users\User\lowcode-meets-procode\lowcode-meets-procode
 dotnet restore
+# Optional: set a demo API key (used by the connector). If not set, the demo key is `my-secret-key`.
+$env:API_KEY = "my-secret-key"
 dotnet run --project src\MakerDotNetApi\MakerDotNetApi.csproj
 ```
 
@@ -36,6 +38,10 @@ ngrok http 5000
 ```
 
 Note: Replace any `http://localhost:5000` references with the `https://` ngrok URL when importing the connector.
+
+API key note
+- The API enforces a simple API key header `x-api-key` for requests. Set the key using the environment variable `API_KEY` (e.g. `$env:API_KEY = "my-secret-key"`).
+- When creating the Custom Connector in Power Automate, configure Security to use **API key** in header `x-api-key` and supply the same key when creating a connection.
 
 Endpoints provided by the demo
 - `GET /hello`  returns `{ "message": "Hello from .NET 👋" }`

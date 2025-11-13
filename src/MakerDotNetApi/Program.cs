@@ -7,11 +7,37 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
+// Enable Swagger UI in Development for easy inspection/import
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+  app.UseSwagger();
+  app.UseSwaggerUI();
 }
+
+// API key for simple protection. Read from environment variable `API_KEY` or use a default for demos.
+// For production, store secrets securely (Azure Key Vault, environment/config pipeline, etc.).
+var apiKey = builder.Configuration["API_KEY"] ?? "my-secret-key";
+
+// Simple middleware to enforce the `x-api-key` header for non-Swagger requests.
+app.Use(async (context, next) =>
+{
+  var path = context.Request.Path.Value ?? string.Empty;
+  // Allow unauthenticated access to Swagger UI and OpenAPI JSON when running locally in Development
+  if (path.StartsWith("/swagger", StringComparison.OrdinalIgnoreCase) || path.Equals("/", StringComparison.OrdinalIgnoreCase))
+  {
+    await next();
+    return;
+  }
+
+  if (!context.Request.Headers.TryGetValue("x-api-key", out var providedKey) || providedKey != apiKey)
+  {
+    context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+    await context.Response.WriteAsJsonAsync(new { error = "Missing or invalid API key (use header 'x-api-key')" });
+    return;
+  }
+
+  await next();
+});
 
 // GET /hello -> returns a JSON message
 app.MapGet("/hello", () => Results.Json(new { message = "Hello from .NET 👋" }));
@@ -19,11 +45,11 @@ app.MapGet("/hello", () => Results.Json(new { message = "Hello from .NET 👋" }
 // POST /summarize -> accepts { "text": "..." } and returns { "summary": "..." }
 app.MapPost("/summarize", (SummarizeRequest req) =>
 {
-    if (req is null || string.IsNullOrWhiteSpace(req.Text))
-        return Results.BadRequest(new { error = "Request must include a non-empty 'text' field." });
+  if (req is null || string.IsNullOrWhiteSpace(req.Text))
+    return Results.BadRequest(new { error = "Request must include a non-empty 'text' field." });
 
-    var summary = Summarizer.Summarize(req.Text);
-    return Results.Json(new SummarizeResponse(summary));
+  var summary = Summarizer.Summarize(req.Text);
+  return Results.Json(new SummarizeResponse(summary));
 });
 
 app.Run();
