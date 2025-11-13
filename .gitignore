@@ -1,0 +1,12 @@
+bin/
+obj/
+.vs/
+*.user
+*.suo
+*.userprefs
+*.log
+*.pdb
+*.cache
+*.DS_Store
+.env
+*.ide

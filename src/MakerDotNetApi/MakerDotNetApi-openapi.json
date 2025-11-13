@@ -1,0 +1,141 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "MakerDotNetApi - Power Automate Connector",
+    "version": "1.0.0",
+    "description": "OpenAPI definition for the MakerDotNetApi minimal .NET 10 service. Import into Power Automate as a Custom Connector."
+  },
+  "servers": [
+    {
+      "url": "https://{host}",
+      "description": "Replace {host} with your deployment host (or use localhost:5000 for local testing)",
+      "variables": {
+        "host": {
+          "default": "localhost:5000"
+        }
+      }
+    }
+  ],
+  "paths": {
+    "/hello": {
+      "get": {
+        "tags": [
+          "Default"
+        ],
+        "summary": "Returns a hello message",
+        "operationId": "GetHello",
+        "responses": {
+          "200": {
+            "description": "A JSON object containing a message",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Hello from .NET 👋"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/summarize": {
+      "post": {
+        "tags": [
+          "Default"
+        ],
+        "summary": "Summarize text",
+        "operationId": "PostSummarize",
+        "requestBody": {
+          "description": "JSON payload with a 'text' field to summarize",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SummarizeRequest"
+              },
+              "examples": {
+                "example-1": {
+                  "value": {
+                    "text": "This is a long piece of text and should be summarized into a shorter sentence or paragraph."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Summary result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SummarizeResponse"
+                },
+                "examples": {
+                  "example-1": {
+                    "value": {
+                      "summary": "This is a long piece of text..."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request (missing or invalid 'text' field)"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "SummarizeRequest": {
+        "type": "object",
+        "properties": {
+          "text": {
+            "type": "string",
+            "description": "Text to summarize"
+          }
+        },
+        "required": [
+          "text"
+        ]
+      },
+      "SummarizeResponse": {
+        "type": "object",
+        "properties": {
+          "summary": {
+            "type": "string",
+            "description": "Short summary of the input text"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "ApiKeyAuth": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "x-api-key",
+        "description": "Optional API key to secure the API. Replace or remove this scheme if you use OAuth2 / Azure AD."
+      }
+    }
+  },
+  "security": [
+    {
+      "ApiKeyAuth": []
+    }
+  ],
+  "tags": [
+    {
+      "name": "Default",
+      "description": "Default API operations"
+    }
+  ]
+}
